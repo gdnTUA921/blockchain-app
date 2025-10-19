@@ -1,0 +1,63 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+/* --- Global Modern Dark Theme --- */
+html, body {
+  @apply bg-gradient-to-br from-[#0f172a] via-[#1e293b] to-[#0f172a] text-gray-200 min-h-screen;
+  font-family: 'Inter', system-ui, sans-serif;
+}
+
+.container {
+  @apply max-w-6xl mx-auto p-6;
+}
+
+/* Card style (neumorphic glow) */
+.card {
+  @apply bg-[#1e293b]/60 backdrop-blur-xl border border-white/10 rounded-2xl p-5 shadow-lg
+         transition-transform hover:-translate-y-0.5 hover:shadow-[0_0_25px_rgba(99,102,241,0.25)];
+  /* extra contrast & readability tweaks */
+  background-color: rgba(30, 41, 59, 0.8);
+  color: #e2e8f0; /* light gray text */
+}
+
+
+/* Primary buttons */
+.btn-primary {
+  @apply bg-gradient-to-r from-indigo-500 to-purple-600 text-white px-4 py-2 rounded-xl font-medium shadow-md hover:shadow-[0_0_15px_rgba(139,92,246,0.5)] transition;
+}
+
+/* Secondary buttons */
+.btn-secondary {
+  @apply border border-indigo-400/40 text-indigo-300 hover:bg-indigo-400/10 px-4 py-2 rounded-xl font-medium transition;
+}
+
+/* Inputs */
+input {
+  @apply bg-[#0f172a]/50 border border-white/10 rounded-lg p-2 text-gray-200 placeholder-gray-500 focus:ring-2 focus:ring-indigo-500 focus:outline-none;
+}
+
+/* Table */
+.table-header {
+  @apply bg-indigo-500/10 text-indigo-300 uppercase text-xs tracking-wider;
+}
+.table-cell {
+  @apply p-3 border-b border-gray-700/50;
+}
+
+body::before {
+  content: "";
+  position: fixed;
+  inset: 0;
+  background: radial-gradient(circle at 30% 30%, rgba(99,102,241,0.15), transparent 40%),
+              radial-gradient(circle at 70% 70%, rgba(168,85,247,0.15), transparent 40%);
+  z-index: -1;
+}
+
+.block-hash {
+  @apply font-mono text-sm break-all text-indigo-200;
+}
+
+.block-meta {
+  @apply text-xs text-gray-400 mt-2 flex justify-between;
+}

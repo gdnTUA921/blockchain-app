@@ -1,0 +1,61 @@
+version: "3.9"
+
+services:
+  backend:
+    build:
+      context: ./backend
+      dockerfile: Dockerfile
+    container_name: blockchain-backend
+    restart: always
+    env_file:
+      - .env
+    volumes:
+      - ./backend:/var/www/html
+    depends_on:
+      - db
+    ports:
+      - "8000:8000"
+    networks:
+      - blockchain-net
+    command: >
+      sh -c "php artisan migrate:fresh --seed &&
+             php artisan serve --host=0.0.0.0 --port=8000"
+
+  frontend:
+    platform: linux/amd64
+    build:
+      context: ./frontend
+      dockerfile: Dockerfile
+    container_name: blockchain-frontend
+    restart: always
+    environment:
+      - VITE_API_BASE=http://localhost:8000/api
+    ports:
+      - "5173:5173"
+    depends_on:
+      - backend
+    networks:
+      - blockchain-net
+
+  db:
+    image: postgres:15
+    container_name: blockchain-db
+    restart: always
+    env_file:
+      - .env
+    environment:
+      - POSTGRES_USER=${DB_USERNAME}
+      - POSTGRES_PASSWORD=${DB_PASSWORD}
+      - POSTGRES_DB=${DB_DATABASE}
+    ports:
+      - "5433:5432"
+    volumes:
+      - pgdata:/var/lib/postgresql/data
+    networks:
+      - blockchain-net
+
+networks:
+  blockchain-net:
+
+volumes:
+  pgdata:
